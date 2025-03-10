@@ -120,11 +120,14 @@ The script provides two output formats:
 By default, the script outputs a nicely formatted table with proper column widths:
 
 ```
-Ticket      Status        Link
---------    ----------    ----
-PROJ-123    In Progress   https://ephocks.atlassian.net/browse/PROJ-123
-PROJ-456    Done          https://ephocks.atlassian.net/browse/PROJ-456
+Ticket      Status                 Link
+--------    --------------------   ----
+PROJ-123    In Progress            https://ephocks.atlassian.net/browse/PROJ-123
+PROJ-456    Closed: Fixed          https://ephocks.atlassian.net/browse/PROJ-456
+PROJ-789    Done                   https://ephocks.atlassian.net/browse/PROJ-789
 ```
+
+For tickets that have been resolved, the status will include both the status and resolution separated by a colon (e.g., "Closed: Fixed").
 
 ### CSV Format
 
@@ -138,7 +141,8 @@ Example CSV output:
 ```
 Ticket,Status,Link
 PROJ-123,In Progress,https://ephocks.atlassian.net/browse/PROJ-123
-PROJ-456,Done,https://ephocks.atlassian.net/browse/PROJ-456
+PROJ-456,Closed: Fixed,https://ephocks.atlassian.net/browse/PROJ-456
+PROJ-789,Done,https://ephocks.atlassian.net/browse/PROJ-789
 ```
 
 ## Troubleshooting
@@ -155,4 +159,5 @@ PROJ-456,Done,https://ephocks.atlassian.net/browse/PROJ-456
 - **Token Storage**: Securely saves your authentication token (with permission)
 - **Multiple Output Formats**: Choose between human-readable tables or machine-readable CSV
 - **Graceful Interruption**: Safely cancel the script with Ctrl+C without stack traces
-- **Flexible Sorting**: Sort results by ticket status or ticket number 
+- **Flexible Sorting**: Sort results by ticket status or ticket number
+- **Resolution Information**: Displays resolution details for closed tickets (e.g., "Closed: Fixed") 

@@ -64,7 +64,7 @@ def extract_jira_tickets(branches):
     return sorted(list(tickets))
 
 def get_jira_status(ticket, jira_base_url, auth=None):
-    """Get the status of a JIRA ticket"""
+    """Get the status and resolution of a JIRA ticket"""
     url = f"{jira_base_url}/rest/api/2/issue/{quote(ticket)}"
     
     if auth is None and jira_base_url == "https://ephocks.atlassian.net":
@@ -77,7 +77,16 @@ def get_jira_status(ticket, jira_base_url, auth=None):
         if response.status_code == 200:
             data = response.json()
             status = data.get('fields', {}).get('status', {}).get('name', 'Unknown')
-            return status
+            
+            # Check if there's a resolution
+            resolution = data.get('fields', {}).get('resolution', {})
+            resolution_name = resolution.get('name') if resolution else None
+            
+            # If we have a resolution, include it with the status
+            if resolution_name:
+                return f"{status}: {resolution_name}"
+            else:
+                return status
         elif response.status_code == 401:
             print(f"Error: Authentication failed for {jira_base_url}", file=sys.stderr)
             sys.exit(1)
